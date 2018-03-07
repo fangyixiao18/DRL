@@ -12,9 +12,7 @@ import matplotlib.pyplot as plt
 import cv2
 import random
 from collections import deque
-import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 #np.set_printoptions(threshold = np.nan)
 
 # hyperparameters for Q-learning
@@ -45,7 +43,7 @@ class SI_DQN:
         self.sess.run(tf.global_variables_initializer())
         
         
-    def build_network(self, learning_rate = 0.001):
+    def build_network(self, learning_rate = 0.0001):
         # CNN frame
         def weight_variable(shape):
             initial = tf.truncated_normal(shape, stddev=0.1)
@@ -75,17 +73,17 @@ class SI_DQN:
         W2 = weight_variable([5, 5, 16, 32])
         b2 = bias_variable([32])
         conv2 = tf.nn.relu(conv2d(pool1, W2) + b2)
-        pool2 = max_pool_2x2(conv2, 6)
+        pool2 = max_pool_2x2(conv2, 2)
         
-#        # layer3 setting
-#        W3 = weight_variable([5, 5, 32, 64])
-#        b3 = bias_variable([64])
-#        conv3 = tf.nn.relu(conv2d(pool2, W3, 2) + b3)
-#        pool3 = max_pool_2x2(conv2, 3)
+        # layer3 setting
+        W3 = weight_variable([5, 5, 32, 64])
+        b3 = bias_variable([64])
+        conv3 = tf.nn.relu(conv2d(pool2, W3) + b3)
+        pool3 = max_pool_2x2(conv3, 3)
         
         # fully connected layer
-        input_fc = tf.reshape(pool2, [-1, 7*7*32])
-        W_fc = weight_variable([7*7*32, 1024])
+        input_fc = tf.reshape(pool3, [-1, 7*7*64])
+        W_fc = weight_variable([7*7*64, 1024])
         b_fc = bias_variable([1024])
         output_fc = tf.nn.relu(tf.matmul(input_fc, W_fc) + b_fc)
         
@@ -185,12 +183,13 @@ class SI_DQN:
             return np.argmax(Q_value)
     
     
-    def test(self):
+    def test(self, showv):
         state = self.env.reset()
         reward_sum = 0
         counter = 0
         while True:
-            self.env.render()
+            if showv:
+                self.env.render()
             counter += 1
             act = self.test_policy(state)
             next_s, reward, done, _ = self.env.step(act)
@@ -199,6 +198,13 @@ class SI_DQN:
             if done:
                 break
         return reward_sum
+    
+    def plot_figure(self, x, y):
+        plt.figure()
+        plt.plot(x,y)
+        plt.xlabel('Episodes')
+        plt.ylabel('Reward')
+        plt.show()
     
 #------------------------------------------------------------------------------
 def main():
@@ -212,6 +218,9 @@ def main():
     # the main part
     agent = SI_DQN(env, sess)
     StartTraining = True
+#    testmodel = True
+    x = []
+    y = []
     
     for e in range(episodes):
         # initialize
@@ -228,7 +237,7 @@ def main():
                     print('Start Training!')
                     StartTraining = False
                 # train the network
-                print(e)
+#                print(e)
                 agent.train_network()
 
             # update state
@@ -241,9 +250,14 @@ def main():
         if e % 5 == 0:
             reward_test = 0
             for i in range(test):
-                reward_test += agent.test()
+                reward_test += agent.test(False)
             avg_reward = reward_test  / test
+            x.append(e)
+            y.append(avg_reward)
             print('Episodes:', e, '  The average reward:', avg_reward)
+            
+    # plot the reward
+    agent.plot_figure(x, y)
 
         
 if __name__ == '__main__':
