@@ -276,7 +276,7 @@ def main(args):
             print('Capture Video!!!')
             print('Capture Video!!!')
             time.sleep(8)
-            rr = agent.test(True)
+            rr = agent.test(F)
     
     # plot the reward
     agent.plot_figure(x, y)
