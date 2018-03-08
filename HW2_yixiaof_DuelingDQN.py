@@ -181,6 +181,7 @@ class Dueling_DQN():
         plt.xlabel('Episodes')
         plt.ylabel('Reward')
         plt.show()
+        plt.savefig('./test')
     
 # -----------------------------------------------------------------------------
 
@@ -214,6 +215,9 @@ def main(args):
     testmodel = True
     x = []
     y = []
+    epi = []
+    trainreward = []
+    rsum = 0
     for e in range(episodes):
         # initialize
         state = env.reset()
@@ -224,6 +228,7 @@ def main(args):
             action = agent.epsilon_greedy_policy(state)
             # take the action and obtain the info
             next_s, reward, done, _ = env.step(action)
+            rsum += reward
             # append memomry
             agent.remember(state, action, reward, next_s, done)
             if len(agent.memory) > burn_in:
@@ -239,7 +244,11 @@ def main(args):
 #                print(counter)
                 break
         
-        
+        if e % 20 == 0 and e > 0:
+            epi.append(e)
+            trainreward.append(rsum/20)
+            rsum = 0
+            
         # test
         if e % 50 == 0:
             reward_test = 0
@@ -274,6 +283,8 @@ def main(args):
     print('Mean: ', rwd_mean)
     print('Std: ', rwd_std)
         
+    agent.plot_figure(epi, trainreward)
+    
 if __name__ == '__main__':
     main(sys.argv)
     
