@@ -21,7 +21,7 @@ import time
 # hyperparameters for Q-learning
 
 # three variales for different qustions
-env_name = 'MountainCar-v0' # mountaincar or cartpole
+env_name = 'CartPole-v0' # mountaincar or cartpole
 model = 'ln' # ln-linear network///dnn-deep neural network
 useMemory = False # use memory (replay buffer) or not
 
@@ -42,9 +42,9 @@ else:
     burn_in = 0
 
 # hyperparameters for iterations
-episodes = 5000
+episodes = 1000
 test = 20
-limit = 1000 # to limit the steps in each episode
+limit = 200 # to limit the steps in each episode
 
 class DQN(): 
     def __init__(self, env, model, sess):
