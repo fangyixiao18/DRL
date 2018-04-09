@@ -15,8 +15,8 @@ import matplotlib.pyplot as plt
 class Reinforce(object):
     
     # Implementation of the policy gradient method REINFORCE.
-    def __init__(self, env, model, lr):
-        self.model = model
+    def __init__(self, env, lr):
+        #self.model = model
         self.env = env
         self.states_dim = self.env.observation_space.shape[0]
         self.actions_dim = self.env.action_space.n
@@ -282,7 +282,7 @@ def main(args):
     y = []
     
     # learning
-    agent = Reinforce(env, model, lr)
+    agent = Reinforce(env, lr)
     for i in range(num_episodes):
         agent.train()
 
