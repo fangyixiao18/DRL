@@ -141,6 +141,7 @@ class Reinforce(object):
             action = 2
         elif (actions[0, 0] + actions[0, 1] + actions[0, 2]) <= random_num <= 1:
             action = 3
+        print(action)
         return action
 
 
