@@ -58,7 +58,7 @@ class Reinforce(object):
         # output layer
         with tf.variable_scope('outputlayer'):
             self.output = tf.layers.dense(layer3, self.actions_dim)
-            self.actions_pred = tf.nn.softmax(tf.l2_normalize(self.output, axis = 1))
+            self.actions_pred = tf.nn.softmax(tf.nn.l2_normalize(self.output, axis = 1))
 
         # loss function
         with tf.variable_scope('loss'):
