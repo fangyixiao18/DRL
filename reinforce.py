@@ -205,6 +205,9 @@ class Reinforce(object):
                 print(state)
                 actions_pred = self.sess.run(self.actions_pred, 
                                         feed_dict = {self.input: [state]})
+                checkl1, checkl2, checkl3 = self.sess.run([self.checkl1, self.checkl2, self.checkl3],
+                    feed_dict = {self.input: [state]})
+                print(checkl1, checkl2, checkl3)
                 print(actions_pred)
                 action = self.act(actions_pred)
 
