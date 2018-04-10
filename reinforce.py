@@ -37,21 +37,21 @@ class Reinforce(object):
         # layer 1
         with tf.variable_scope('layer1'):
             layer1 = tf.layers.dense(self.input, 16, 
-                                    kernel_initializer = tf.random_normal_initializer(), 
+                                    kernel_initializer = tf.random_uniform_initializer(), 
                                     activation = tf.nn.relu)
             self.checkl1 = tf.norm(layer1) / 4
         
         # layer 2
         with tf.variable_scope('layer2'):
             layer2 = tf.layers.dense(layer1, 16, 
-                                    kernel_initializer = tf.random_normal_initializer(mean = 0, stddev = 0.5), 
+                                    kernel_initializer = tf.random_uniform_initializer(maxval = 0.5), 
                                     activation = tf.nn.relu)
             self.checkl2 = tf.norm(layer2) / 4
 
         # layer 3
         with tf.variable_scope('layer3'):
             layer3 = tf.layers.dense(layer2, 16, 
-                                    kernel_initializer = tf.random_normal_initializer(mean = 0, stddev = 0.2), 
+                                    kernel_initializer = tf.random_uniform_initializer(maxval = 0.2), 
                                     activation = tf.nn.relu)
             self.checkl3 = tf.norm(layer3) / 4
 
