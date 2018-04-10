@@ -281,12 +281,11 @@ def main(args):
     
     # learning
     agent = Reinforce(env, lr)
-    num_episodes = 5
     for i in range(num_episodes):
         agent.train()
 
         # test model
-        if i % 2 == 0:
+        if i % 500 == 0:
             print('Test model at %d episode' %i)
             reward_avg, reward_std = agent.test_model()
             print('reward_avg:', reward_avg, '\n')
