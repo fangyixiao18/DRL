@@ -58,7 +58,7 @@ class Reinforce(object):
         # output layer
         with tf.variable_scope('outputlayer'):
             self.output = tf.layers.dense(layer3, self.actions_dim)
-            self.actions_pred = tf.nn.softmax(self.output)
+            self.actions_pred = tf.nn.softmax(tf.l2_normalize(self.output, axis = 1))
 
         # loss function
         with tf.variable_scope('loss'):
@@ -204,6 +204,7 @@ class Reinforce(object):
                 # obtain action in certain state
                 actions_pred = self.sess.run(self.actions_pred, 
                                         feed_dict = {self.input: [state]})
+                print(actions_pred)
                 action = self.act(actions_pred)
 
                 # take actions and obtain other info
