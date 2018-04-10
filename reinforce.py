@@ -134,6 +134,7 @@ class Reinforce(object):
         action = 0
         random_num = random.random()
         print(random_num)
+        print(actions[0, 0])
         if random_num < actions[0, 0]:
             action = 0
         elif actions[0, 0] <= random_num < (actions[0, 0] + actions[0, 1]):
