@@ -230,6 +230,7 @@ class Reinforce(object):
         plt.errorbar(x, y, yerr, capsize = 3)
         plt.xlabel(x_name)
         plt.ylabel(y_name)
+        plt.savefig('10703reinforce.png')
         plt.show()
         
 
