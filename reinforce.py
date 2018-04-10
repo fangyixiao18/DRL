@@ -32,7 +32,7 @@ class Reinforce(object):
     def build_net(self):
         # input
         with tf.variable_scope('input'):
-            self.input = tf.placeholder(tf.float32, [None, self.states_dim])
+            self.input = tf.placeholder(tf.float64, [None, self.states_dim])
 
         # layer 1
         with tf.variable_scope('layer1'):
@@ -63,8 +63,8 @@ class Reinforce(object):
         # loss function
         with tf.variable_scope('loss'):
             # variables used in loss
-            self.Gt = tf.placeholder(tf.float32, name = 'return') # the sum of the return reawards
-            self.actions_cast = tf.placeholder(tf.float32, name = 'actions_cast') # the one hot actions
+            self.Gt = tf.placeholder(tf.float64, name = 'return') # the sum of the return reawards
+            self.actions_cast = tf.placeholder(tf.float64, name = 'actions_cast') # the one hot actions
             # loss
             self.J = tf.log(tf.reduce_sum(tf.multiply(self.actions_pred, self.actions_cast), axis = 1))
             self.loss = -tf.reduce_mean(tf.multiply(self.Gt, self.J))
