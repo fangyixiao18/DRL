@@ -208,6 +208,7 @@ class Reinforce(object):
                 # obtain action in certain state
                 actions_pred = self.sess.run(self.actions_pred, 
                                         feed_dict = {self.input: [state]})
+                print(actions_pred)
                 action = self.act(actions_pred)
 
                 # take actions and obtain other info
