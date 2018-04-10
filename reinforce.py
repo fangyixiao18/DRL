@@ -281,7 +281,7 @@ def main(args):
     
     # learning
     agent = Reinforce(env, lr)
-    num_episodes = 10
+    num_episodes = 5
     for i in range(num_episodes):
         agent.train()
 
